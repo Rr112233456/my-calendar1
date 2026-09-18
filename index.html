@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Calendar</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- ========================================
+         HEADER
+    ========================================= -->
+
+    <header class="header">
+
+        <div class="header-left">
+
+            <h1>
+                Calendar for Dektorte
+            </h1>
+
+        </div>
+
+
+        <div class="header-center">
+
+            <button
+                id="prevMonth"
+                class="nav-button"
+                type="button"
+            >
+                ‹
+            </button>
+
+
+            <h2 id="monthTitle">
+                January 2026
+            </h2>
+
+
+            <button
+                id="nextMonth"
+                class="nav-button"
+                type="button"
+            >
+                ›
+            </button>
+
+
+            <button
+                id="todayButton"
+                class="today-button"
+                type="button"
+            >
+                Today
+            </button>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <button
+                id="searchButton"
+                class="icon-button"
+                type="button"
+                title="Search"
+            >
+                🔍
+            </button>
+
+
+            <div
+                id="searchBox"
+                class="search-box hidden"
+            >
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search tasks..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <button
+                id="themeButton"
+                class="icon-button"
+                type="button"
+                title="Toggle theme"
+            >
+                🌙
+            </button>
+
+
+            <button
+                id="newTaskButton"
+                class="new-task-button"
+                type="button"
+            >
+                New Task
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ========================================
+         MAIN
+    ========================================= -->
+
+    <main class="main-container">
+
+
+        <!-- ====================================
+             CALENDAR SECTION
+        ===================================== -->
+
+        <section class="calendar-section">
+
+
+            <!-- WEEK DAYS -->
+
+            <div class="week-header">
+
+                <div>
+                    Sunday
+                </div>
+
+                <div>
+                    Monday
+                </div>
+
+                <div>
+                    Tuesday
+                </div>
+
+                <div>
+                    Wednesday
+                </div>
+
+                <div>
+                    Thursday
+                </div>
+
+                <div>
+                    Friday
+                </div>
+
+                <div>
+                    Saturday
+                </div>
+
+            </div>
+
+
+            <!-- CALENDAR -->
+
+            <div
+                id="calendarGrid"
+                class="calendar-grid"
+            ></div>
+
+
+        </section>
+
+
+
+        <!-- ====================================
+             SIDEBAR
+        ===================================== -->
+
+        <aside class="sidebar">
+
+
+            <!-- UPCOMING TASKS -->
+
+            <div class="sidebar-card">
+
+                <div class="card-header">
+
+                    <h3>
+                        Upcoming Tasks
+                    </h3>
+
+                    <span id="upcomingTaskCount">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="upcomingTasks"
+                    class="upcoming-tasks"
+                ></div>
+
+            </div>
+
+
+
+            <!-- TASK STATISTICS -->
+
+            <div class="sidebar-card">
+
+                <h3>
+                    Task Statistics
+                </h3>
+
+
+                <div class="stats">
+
+
+                    <div class="stat">
+
+                        <strong id="totalTasks">
+                            0
+                        </strong>
+
+                        <span>
+                            Total Tasks
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <strong id="completedTasks">
+                            0
+                        </strong>
+
+                        <span>
+                            Completed
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <strong id="taskCount">
+                            0
+                        </strong>
+
+                        <span>
+                            Remaining
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </aside>
+
+    </main>
+
+
+
+    <!-- ========================================
+         NEW TASK MODAL
+    ========================================= -->
+
+    <div
+        id="taskModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <h2>
+                    New Task
+                </h2>
+
+
+                <button
+                    id="closeModal"
+                    class="close-button"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <div class="modal-body">
+
+
+                <!-- TASK NAME -->
+
+                <div class="form-group">
+
+                    <label for="taskName">
+                        Task Name
+                    </label>
+
+                    <input
+                        id="taskName"
+                        type="text"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+
+                <!-- DATE -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="taskDate">
+                            Start Date
+                        </label>
+
+                        <input
+                            id="taskDate"
+                            type="date"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="taskEndDate">
+                            End Date
+                        </label>
+
+                        <input
+                            id="taskEndDate"
+                            type="date"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- CATEGORY -->
+
+                <div class="form-group">
+
+                    <label for="taskCategory">
+                        Category
+                    </label>
+
+                    <select id="taskCategory">
+
+                        <option value="work">
+                            Work
+                        </option>
+
+                        <option value="Photo">
+                            Photo
+                        </option>
+
+                        <option value="Video">
+                            Video
+                        </option>
+
+                        <option value="School">
+                            School
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- TIME -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="taskStart">
+                            Start Time
+                        </label>
+
+                        <input
+                            id="taskStart"
+                            type="time"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="taskEnd">
+                            End Time
+                        </label>
+
+                        <input
+                            id="taskEnd"
+                            type="time"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="taskLocation">
+                        Location
+                    </label>
+
+                    <input
+                        id="taskLocation"
+                        type="text"
+                    >
+
+                </div>
+
+
+
+                <!-- DETAILS -->
+
+                <div class="form-group">
+
+                    <label for="taskDetails">
+                        Details
+                    </label>
+
+                    <textarea
+                        id="taskDetails"
+                        rows="4"
+                    ></textarea>
+
+                </div>
+
+
+
+                <!-- =================================
+                     TASK COLORS
+                ================================== -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="taskColor">
+                            สีแถบงาน
+                        </label>
+
+                        <input
+                            type="color"
+                            id="taskColor"
+                            value="#eaf2ff"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="taskTextColor">
+                            สีตัวหนังสือ
+                        </label>
+
+                        <input
+                            type="color"
+                            id="taskTextColor"
+                            value="#1f2937"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- SAVE -->
+
+                <button
+                    id="saveTaskButton"
+                    class="save-task-button"
+                    type="button"
+                >
+                    Save Task
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         TASK DETAIL MODAL
+    ========================================= -->
+
+    <div
+        id="taskDetailModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <h2 id="detailTaskName">
+                    Task
+                </h2>
+
+
+                <button
+                    id="closeTaskDetailModal"
+                    class="close-button"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+
+                <!-- CATEGORY -->
+
+                <div class="detail-item">
+
+                    <span>
+                        Category
+                    </span>
+
+                    <strong id="detailTaskCategory">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="detail-item">
+
+                    <span>
+                        Date
+                    </span>
+
+                    <strong id="detailTaskDate">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <!-- START -->
+
+                <div class="detail-item">
+
+                    <span>
+                        Start Time
+                    </span>
+
+                    <strong id="detailTaskStart">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <!-- END -->
+
+                <div class="detail-item">
+
+                    <span>
+                        End Time
+                    </span>
+
+                    <strong id="detailTaskEnd">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="detail-item">
+
+                    <span>
+                        Location
+                    </span>
+
+                    <strong id="detailTaskLocation">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <!-- DETAILS -->
+
+                <div class="detail-description">
+
+                    <span>
+                        Details
+                    </span>
+
+                    <p id="detailTaskDetails">
+                        -
+                    </p>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="modal-actions">
+
+
+                    <button
+                        id="completeTaskButton"
+                        class="complete-button"
+                        type="button"
+                    >
+                        Complete
+                    </button>
+
+
+                    <button
+                        id="editTaskButton"
+                        class="edit-button"
+                        type="button"
+                    >
+                        Edit
+                    </button>
+
+
+                    <button
+                        id="deleteTaskButton"
+                        class="delete-button"
+                        type="button"
+                    >
+                        Delete
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SCRIPT
+    ========================================= -->
+
+<!-- ========================================
+     END OF NEW TASK MODAL
+========================================= -->
+
+
+
+<!-- ========================================
+     END OF TASK DETAIL MODAL
+========================================= -->
+
+
+
+<!-- ========================================
+     NOTIFICATION
+========================================= -->
+
+<div
+    id="notification"
+    class="notification hidden"
+>
+
+    <div class="notification-content">
+
+        <span
+            id="notificationIcon"
+            class="notification-icon"
+        >
+            🔔
+        </span>
+
+        <div>
+
+            <strong id="notificationTitle">
+                Task Reminder
+            </strong>
+
+            <p id="notificationMessage">
+                You have an upcoming task.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ========================================
+     CONFIRMATION MODAL
+========================================= -->
+
+<div
+    id="confirmModal"
+    class="modal hidden"
+>
+
+    <div class="modal-content confirm-modal-content">
+
+
+        <div class="modal-header">
+
+            <h2 id="confirmTitle">
+                Confirm
+            </h2>
+
+
+            <button
+                id="closeConfirmModal"
+                class="close-button"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <p id="confirmMessage">
+                Are you sure?
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    id="cancelConfirmButton"
+                    class="edit-button"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    id="confirmButton"
+                    class="delete-button"
+                    type="button"
+                >
+                    Confirm
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ========================================
+     PAGE LOADING
+========================================= -->
+
+<div
+    id="loadingOverlay"
+    class="loading-overlay hidden"
+>
+
+    <div class="loading-spinner"></div>
+
+</div>
+
+
+
+<!-- ========================================
+     JAVASCRIPT
+========================================= -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
